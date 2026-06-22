@@ -1,0 +1,99 @@
+[Mechanic Mech-1] entered building and waiting for repair calls.
+[Passenger Prof-3] (PROFESSOR) entered building at floor 0
+[Passenger Stu-6] (STUDENT) entered building at floor 0
+[Passenger Stu-1] (STUDENT) entered building at floor 0
+[Passenger Prof-0] (PROFESSOR) entered building at floor 0
+[Passenger Port-4] (PORTER) entered building at floor 0
+[Passenger Dep-2] (DEPUTY) entered building at floor 0
+[Passenger Port-5] (PORTER) entered building at floor 0
+[Passenger Port-8] (PORTER) entered building at floor 0
+[Passenger Dep-7] (DEPUTY) entered building at floor 0
+[Passenger Port-9] (PORTER) entered building at floor 0
+[Elevator E3-Freight] picked up Passenger Port-8 at floor 0
+[Elevator E1-Public] picked up Passenger Stu-6 at floor 0
+[Elevator E2-VIP] picked up Passenger Prof-3 at floor 0
+[Elevator E1-Public] BROKE DOWN at floor 2!
+[Mechanic Mech-1] repairing Elevator E1-Public at floor 2
+[Elevator E3-Freight] dropped off Passenger Port-8 at floor 5
+[Passenger Port-8] arrived at destination floor 5 for task T8
+[Elevator E2-VIP] dropped off Passenger Prof-3 at floor 6
+[Passenger Prof-3] arrived at destination floor 6 for task T3
+[Passenger Port-8] finished task T8
+[Mechanic Mech-1] finished repairing Elevator E1-Public
+[Elevator E1-Public] REPAIRED at floor 2
+[Elevator E1-Public] picked up Passenger Stu-6 at floor 2
+[Passenger Prof-3] finished task T3
+[Passenger Port-9] waited too long. Leaving queue and retrying.
+[Passenger Stu-6] arrived at destination floor 2 for task T6
+[Passenger Port-5] waited too long. Leaving queue and retrying.
+[Passenger Stu-1] waited too long. Leaving queue and retrying.
+[Passenger Dep-7] waited too long. Leaving queue and retrying.
+[Passenger Prof-0] waited too long. Leaving queue and retrying.
+[Passenger Port-4] waited too long. Leaving queue and retrying.
+[Passenger Dep-2] waited too long. Leaving queue and retrying.
+[Elevator E3-Freight] picked up Passenger Port-9 at floor 0
+[Elevator E2-VIP] picked up Passenger Dep-7 at floor 0
+[Elevator E1-Public] dropped off Passenger Stu-6 at floor 0
+[Elevator E1-Public] picked up Passenger Stu-1 at floor 0
+[Passenger Stu-6] finished task T6
+[Passenger Stu-6] is already at ground floor, leaving the building.
+[Elevator E1-Public] dropped off Passenger Stu-1 at floor 3
+[Passenger Stu-1] arrived at destination floor 3 for task T1
+[Passenger Stu-1] finished task T1
+[Elevator E2-VIP] dropped off Passenger Dep-7 at floor 7
+[Passenger Dep-7] arrived at destination floor 7 for task T7
+[Elevator E3-Freight] dropped off Passenger Port-9 at floor 8
+[Passenger Port-9] arrived at destination floor 8 for task T9
+[Elevator E3-Freight] picked up Passenger Port-5 at floor 0
+[Elevator E2-VIP] picked up Passenger Prof-0 at floor 0
+[Passenger Dep-7] finished task T7
+[Passenger Port-9] finished task T9
+[Elevator E1-Public] picked up Passenger Stu-1 at floor 3
+[Elevator E3-Freight] dropped off Passenger Port-5 at floor 5
+[Elevator E3-Freight] picked up Passenger Port-8 at floor 5
+[Passenger Port-5] arrived at destination floor 5 for task T5
+[Elevator E2-VIP] dropped off Passenger Prof-0 at floor 6
+[Elevator E2-VIP] picked up Passenger Prof-3 at floor 6
+[Passenger Prof-0] arrived at destination floor 6 for task T0
+[Elevator E1-Public] dropped off Passenger Stu-1 at floor 0
+[Passenger Stu-1] returned to ground floor and left the building.
+[Passenger Port-8] waited too long. Leaving queue and retrying.
+[Passenger Port-5] finished task T5
+[Passenger Prof-3] waited too long. Leaving queue and retrying.
+[Passenger Prof-0] finished task T0
+[Passenger Dep-2] waited too long. Leaving queue and retrying.
+[Passenger Port-4] waited too long. Leaving queue and retrying.
+[Elevator E3-Freight] dropped off Passenger Port-8 at floor 0
+[Elevator E3-Freight] picked up Passenger Port-4 at floor 0
+[Passenger Port-8] returned to ground floor and left the building.
+[Elevator E3-Freight] dropped off Passenger Port-4 at floor 2
+[Passenger Port-4] arrived at destination floor 2 for task T4
+[Elevator E2-VIP] dropped off Passenger Prof-3 at floor 0
+[Passenger Prof-3] returned to ground floor and left the building.
+[Elevator E2-VIP] picked up Passenger Dep-2 at floor 0
+[Elevator E3-Freight] picked up Passenger Port-8 at floor 5
+[Elevator E3-Freight] dropped off Passenger Port-8 at floor 5
+[Elevator E3-Freight] picked up Passenger Port-5 at floor 5
+[Passenger Port-4] finished task T4
+[Elevator E2-VIP] BROKE DOWN at floor 7!
+[Mechanic Mech-1] repairing Elevator E2-VIP at floor 7
+[Passenger Dep-2] arrived at destination floor 7 for task T2
+[Elevator E3-Freight] dropped off Passenger Port-5 at floor 0
+[Passenger Port-5] returned to ground floor and left the building.
+[Passenger Dep-7] waited too long. Leaving queue and retrying.
+[Passenger Port-9] waited too long. Leaving queue and retrying.
+[Elevator E3-Freight] picked up Passenger Port-4 at floor 2
+[Passenger Dep-2] finished task T2
+--- ALL PASSENGERS COMPLETED THEIR TASKS, SHUTTING DOWN ---
+[Passenger Prof-0] was interrupted.
+[Passenger Port-9] was interrupted.
+[Passenger Dep-2] was interrupted.
+Total Completed Tasks: 10
+[Passenger Dep-7] was interrupted.
+[Elevator E1-Public] interrupted.
+[Elevator E3-Freight] interrupted.
+[Mechanic Mech-1] interrupted.
+[Elevator E2-VIP] interrupted.
+[Passenger Port-4] was interrupted.
+Completed Tasks IDs: [T8, T3, T6, T1, T7, T9, T5, T0, T4, T2]
+Total System Active Time (ms): 16056
