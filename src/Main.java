@@ -6,25 +6,25 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class MainController {
-    private static MainController instance;
+public class Main {
+    private static Main instance;
     private Building building;
     private final List<Elevator> elevators = new ArrayList<>();
     private final List<Passenger> passengers = new ArrayList<>();
     private final List<Thread> threads = new ArrayList<>();
 
-    private MainController() {}
+    private Main() {}
 
-    public static synchronized MainController getInstance() {
+    public static synchronized Main getInstance() {
         if (instance == null) {
-            instance = new MainController();
+            instance = new Main();
         }
         return instance;
     }
 
     public static void main(String[] args) {
-        MainController controller = MainController.getInstance();
-        controller.runSimulation();
+        Main app = Main.getInstance();
+        app.runSimulation();
     }
 
     public void runSimulation() {
