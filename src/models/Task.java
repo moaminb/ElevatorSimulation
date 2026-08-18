@@ -3,7 +3,7 @@ package models;
 public class Task {
     private final String id;
     private final int targetFloor;
-    private final long duration; // in milliseconds
+    private final long duration;
     private final Priority priority;
 
     public Task(String id, int targetFloor, long duration, Priority priority) {

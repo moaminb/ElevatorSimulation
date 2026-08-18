@@ -67,7 +67,6 @@ public class MainController {
         building = new Building(numFloors, mode, 2500);
         Random random = new Random();
 
-        // 1. Create and Register Elevators using Factory Method
         for (int i = 0; i < numElevators; i++) {
             Elevator elevator = createElevator(i, building);
             elevators.add(elevator);
@@ -78,7 +77,6 @@ public class MainController {
             t.start();
         }
 
-        // 2. Create Passengers using Factory Method
         for (int i = 0; i < numPassengers; i++) {
             Passenger p = createPassenger(i, numFloors, building, random);
             passengers.add(p);
@@ -88,7 +86,6 @@ public class MainController {
             t.start();
         }
 
-        // 3. Graceful Wait until ALL passengers have finished tasks AND returned to ground floor
         while (building.getExitedPassengersCount() < numPassengers) {
             try {
                 Thread.sleep(500);
@@ -100,7 +97,6 @@ public class MainController {
 
         System.out.println("\n--- ALL PASSENGERS COMPLETED THEIR TASKS AND LEFT THE BUILDING ---");
 
-        // 4. Graceful Shutdown
         for (Passenger p : passengers) {
             p.stop();
         }
@@ -115,7 +111,6 @@ public class MainController {
         long endTime = System.currentTimeMillis();
         long totalActiveTime = endTime - startTime;
 
-        // 5. Final Report
         System.out.println("================ SIMULATION REPORT ================");
         System.out.println("Total Passengers: " + numPassengers);
         System.out.println("Total Completed Tasks: " + building.getCompletedTasks().size());
@@ -125,9 +120,6 @@ public class MainController {
         System.out.println("====================================================");
     }
 
-    /**
-     * متد کارخانه‌ای (Factory Method) برای ایجاد آسانسور بر اساس ایندکس و نوع
-     */
     private Elevator createElevator(int index, Building building) {
         if (index == 0) {
             return new PublicElevator("E" + (index + 1) + "-Public", 1000, building);
@@ -140,9 +132,6 @@ public class MainController {
         }
     }
 
-    /**
-     * متد کارخانه‌ای (Factory Method) برای ایجاد مسافر تصادفی با تسک اختصاصی
-     */
     private Passenger createPassenger(int index, int numFloors, Building building, Random random) {
         int destFloor = random.nextInt(numFloors - 1) + 1;
         Priority prio = random.nextBoolean() ? Priority.HIGH : (random.nextBoolean() ? Priority.MEDIUM : Priority.LOW);

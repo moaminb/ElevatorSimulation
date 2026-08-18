@@ -37,9 +37,6 @@ public class Floor {
         return eligible;
     }
 
-    /**
-     * انتخاب مناسب‌ترین صف (با کمترین طول انتظار) برای مسافر
-     */
     public synchronized ElevatorQueue getPreferredQueue(Passenger passenger) {
         List<ElevatorQueue> eligible = getEligibleQueues(passenger);
         if (eligible.isEmpty()) {

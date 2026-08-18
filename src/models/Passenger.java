@@ -28,7 +28,7 @@ public abstract class Passenger implements Runnable {
     public String getId() { return id; }
     public int getAge() { return age; }
     public int getWeight() { return weight; }
-    public int getTotalWeight() { return weight; } // Overridden by Porter
+    public int getTotalWeight() { return weight; }
     public Role getRole() { return role; }
     public Task getTask() { return task; }
     public int getCurrentFloor() { return currentFloor; }
@@ -67,16 +67,10 @@ public abstract class Passenger implements Runnable {
         }
     }
 
-    /**
-     * وظیفه ۱: ورود به ساختمان در طبقه شروع
-     */
     protected void enterBuilding() {
         System.out.println("[Passenger " + id + "] (" + role + ", age: " + age + ", weight: " + getTotalWeight() + "kg) entered building at floor " + currentFloor);
     }
 
-    /**
-     * وظیفه ۲: درخواست آسانسور و جابجایی تا طبقه مقصد تسک
-     */
     protected void travelToTaskFloor() throws InterruptedException {
         int target = task.getTargetFloor();
         if (currentFloor != target) {
@@ -88,9 +82,6 @@ public abstract class Passenger implements Runnable {
         }
     }
 
-    /**
-     * وظیفه ۳: انجام تسک مربوطه و ثبت اتمام آن
-     */
     protected void performTask() throws InterruptedException {
         Thread.sleep(task.getDuration());
         taskCompleted = true;
@@ -98,9 +89,6 @@ public abstract class Passenger implements Runnable {
         building.reportTaskCompleted(task.getId());
     }
 
-    /**
-     * وظیفه ۴: درخواست آسانسور برای بازگشت به طبقه همکف (۰)
-     */
     protected void returnToGroundFloor() throws InterruptedException {
         if (currentFloor != 0) {
             boolean arrived = building.requestElevatorAndWait(this, 0);
@@ -110,9 +98,6 @@ public abstract class Passenger implements Runnable {
         }
     }
 
-    /**
-     * وظیفه ۵: خروج نهایی از ساختمان و اطلاع به سیستم
-     */
     protected void leaveBuilding() {
         System.out.println("[Passenger " + id + "] returned to ground floor and left the building.");
         building.passengerExitedBuilding(this);

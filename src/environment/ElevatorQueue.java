@@ -21,9 +21,6 @@ public class ElevatorQueue {
         return waitingPassengers.size();
     }
 
-    /**
-     * انتخاب مسافر با استفاده از الگوی Strategy و بدون نیاز به switch-case (رعایت کامل OCP و DIP)
-     */
     public synchronized Passenger pickupPassenger(Elevator elevator, FairnessStrategy strategy) {
         if (waitingPassengers.isEmpty() || strategy == null) {
             return null;

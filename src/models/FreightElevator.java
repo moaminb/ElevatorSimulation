@@ -8,7 +8,6 @@ public class FreightElevator extends Elevator {
 
     @Override
     public boolean canAccept(Passenger passenger) {
-        // Freight accepts Porters only
         if (passenger.getRole() != Role.PORTER) return false;
         return passenger.getTotalWeight() <= getMaxWeight();
     }

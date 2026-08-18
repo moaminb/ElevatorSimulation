@@ -8,7 +8,6 @@ public class VipElevator extends Elevator {
 
     @Override
     public boolean canAccept(Passenger passenger) {
-        // VIP accepts Professors and Deputies
         if (passenger.getRole() != Role.PROFESSOR && passenger.getRole() != Role.DEPUTY) return false;
         return passenger.getTotalWeight() <= getMaxWeight();
     }
