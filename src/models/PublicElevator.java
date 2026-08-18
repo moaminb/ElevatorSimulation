@@ -10,6 +10,6 @@ public class PublicElevator extends Elevator {
     public boolean canAccept(Passenger passenger) {
         // Public elevators accept anyone except porters
         if (passenger.getRole() == Role.PORTER) return false;
-        return passenger.getTotalWeight() <= maxWeight;
+        return passenger.getTotalWeight() <= getMaxWeight();
     }
 }

@@ -3,14 +3,16 @@ package models;
 import environment.Building;
 
 public abstract class Passenger implements Runnable {
-    protected final String id;
-    protected final int age;
-    protected final int weight;
-    protected final Role role;
-    protected final Task task;
-    protected int currentFloor;
-    protected volatile boolean running = true;
-    protected final Building building;
+    private final String id;
+    private final int age;
+    private final int weight;
+    private final Role role;
+    private final Task task;
+    private int currentFloor;
+    private volatile boolean taskCompleted = false;
+    private volatile boolean running = true;
+    private final Building building;
+    private final long arrivalTime;
 
     public Passenger(String id, int age, int weight, Role role, Task task, int startFloor, Building building) {
         this.id = id;
@@ -20,6 +22,7 @@ public abstract class Passenger implements Runnable {
         this.task = task;
         this.currentFloor = startFloor;
         this.building = building;
+        this.arrivalTime = System.currentTimeMillis();
     }
 
     public String getId() { return id; }
@@ -31,6 +34,16 @@ public abstract class Passenger implements Runnable {
     public int getCurrentFloor() { return currentFloor; }
     public void setCurrentFloor(int currentFloor) { this.currentFloor = currentFloor; }
     public boolean isRunning() { return running; }
+    public boolean isTaskCompleted() { return taskCompleted; }
+    public long getWaitingTime() { return System.currentTimeMillis() - arrivalTime; }
+    public Building getBuilding() { return building; }
+
+    public int getDestinationFloor() {
+        if (!taskCompleted) {
+            return task.getTargetFloor();
+        }
+        return 0;
+    }
 
     public void stop() {
         running = false;
@@ -39,34 +52,69 @@ public abstract class Passenger implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("[Passenger " + id + "] (" + role + ") entered building at floor " + currentFloor);
-            
-            // 1. Wait for elevator and travel to task floor
-            boolean arrived = building.requestElevatorAndWait(this, task.getTargetFloor());
-            
-            if (arrived && running) {
-                currentFloor = task.getTargetFloor();
-                System.out.println("[Passenger " + id + "] arrived at destination floor " + currentFloor + " for task " + task.getId());
-                
-                // Do task
-                Thread.sleep(task.getDuration());
-                System.out.println("[Passenger " + id + "] finished task " + task.getId());
-                building.reportTaskCompleted(task.getId());
-                
-                // 2. Return to ground floor
-                if (currentFloor != 0) {
-                    arrived = building.requestElevatorAndWait(this, 0);
-                    if (arrived && running) {
-                        currentFloor = 0;
-                        System.out.println("[Passenger " + id + "] returned to ground floor and left the building.");
-                    }
-                } else {
-                    System.out.println("[Passenger " + id + "] is already at ground floor, leaving the building.");
-                }
+            enterBuilding();
+            travelToTaskFloor();
+            if (running) {
+                performTask();
             }
+            if (running) {
+                returnToGroundFloor();
+            }
+            leaveBuilding();
         } catch (InterruptedException e) {
-            System.out.println("[Passenger " + id + "] was interrupted.");
+            System.out.println("[Passenger " + id + "] interrupted.");
             Thread.currentThread().interrupt();
         }
+    }
+
+    /**
+     * وظیفه ۱: ورود به ساختمان در طبقه شروع
+     */
+    protected void enterBuilding() {
+        System.out.println("[Passenger " + id + "] (" + role + ", age: " + age + ", weight: " + getTotalWeight() + "kg) entered building at floor " + currentFloor);
+    }
+
+    /**
+     * وظیفه ۲: درخواست آسانسور و جابجایی تا طبقه مقصد تسک
+     */
+    protected void travelToTaskFloor() throws InterruptedException {
+        int target = task.getTargetFloor();
+        if (currentFloor != target) {
+            boolean arrived = building.requestElevatorAndWait(this, target);
+            if (arrived) {
+                currentFloor = target;
+                System.out.println("[Passenger " + id + "] arrived at destination floor " + currentFloor + " for task " + task.getId());
+            }
+        }
+    }
+
+    /**
+     * وظیفه ۳: انجام تسک مربوطه و ثبت اتمام آن
+     */
+    protected void performTask() throws InterruptedException {
+        Thread.sleep(task.getDuration());
+        taskCompleted = true;
+        System.out.println("[Passenger " + id + "] finished task " + task.getId());
+        building.reportTaskCompleted(task.getId());
+    }
+
+    /**
+     * وظیفه ۴: درخواست آسانسور برای بازگشت به طبقه همکف (۰)
+     */
+    protected void returnToGroundFloor() throws InterruptedException {
+        if (currentFloor != 0) {
+            boolean arrived = building.requestElevatorAndWait(this, 0);
+            if (arrived) {
+                currentFloor = 0;
+            }
+        }
+    }
+
+    /**
+     * وظیفه ۵: خروج نهایی از ساختمان و اطلاع به سیستم
+     */
+    protected void leaveBuilding() {
+        System.out.println("[Passenger " + id + "] returned to ground floor and left the building.");
+        building.passengerExitedBuilding(this);
     }
 }

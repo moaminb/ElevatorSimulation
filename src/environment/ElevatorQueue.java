@@ -10,42 +10,29 @@ public class ElevatorQueue {
 
     public synchronized void addPassenger(Passenger passenger) {
         waitingPassengers.add(passenger);
-        notifyAll(); 
+        notifyAll();
     }
 
     public synchronized void removePassenger(Passenger passenger) {
         waitingPassengers.remove(passenger);
     }
 
-    public synchronized Passenger pickupPassenger(Elevator elevator) throws InterruptedException {
-        if (waitingPassengers.isEmpty()) {
+    public synchronized int size() {
+        return waitingPassengers.size();
+    }
+
+    /**
+     * انتخاب مسافر با استفاده از الگوی Strategy و بدون نیاز به switch-case (رعایت کامل OCP و DIP)
+     */
+    public synchronized Passenger pickupPassenger(Elevator elevator, FairnessStrategy strategy) {
+        if (waitingPassengers.isEmpty() || strategy == null) {
             return null;
         }
 
-        Passenger selected = selectFairPassenger(elevator);
+        Passenger selected = strategy.selectPassenger(waitingPassengers, elevator);
         if (selected != null) {
             waitingPassengers.remove(selected);
         }
         return selected;
-    }
-
-    private Passenger selectFairPassenger(Elevator elevator) {
-        Passenger best = null;
-        for (Passenger p : waitingPassengers) {
-            if (elevator.canAccept(p)) {
-                if (best == null) {
-                    best = p;
-                } else {
-                    if (p.getTask().getPriority().getLevel() > best.getTask().getPriority().getLevel()) {
-                        best = p;
-                    } else if (p.getTask().getPriority().getLevel() == best.getTask().getPriority().getLevel()) {
-                        if (p.getAge() > best.getAge()) {
-                            best = p;
-                        }
-                    }
-                }
-            }
-        }
-        return best;
     }
 }

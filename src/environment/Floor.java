@@ -2,30 +2,56 @@ package environment;
 
 import models.Elevator;
 import models.Passenger;
-import models.Role;
-import models.PublicElevator;
-import models.VipElevator;
-import models.FreightElevator;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Floor {
     private final int floorNumber;
-    private final ElevatorQueue publicQueue = new ElevatorQueue();
-    private final ElevatorQueue vipQueue = new ElevatorQueue();
-    private final ElevatorQueue freightQueue = new ElevatorQueue();
+    private final Map<Elevator, ElevatorQueue> elevatorQueues = new LinkedHashMap<>();
 
     public Floor(int floorNumber) {
         this.floorNumber = floorNumber;
     }
 
-    public ElevatorQueue getQueueFor(Elevator elevator) {
-        if (elevator instanceof PublicElevator) return publicQueue;
-        if (elevator instanceof VipElevator) return vipQueue;
-        return freightQueue;
+    public int getFloorNumber() {
+        return floorNumber;
     }
 
-    public ElevatorQueue getQueueFor(Passenger passenger) {
-        if (passenger.getRole() == Role.PORTER) return freightQueue;
-        if (passenger.getRole() == Role.PROFESSOR || passenger.getRole() == Role.DEPUTY) return vipQueue;
-        return publicQueue;
+    public synchronized void addElevatorQueue(Elevator elevator) {
+        elevatorQueues.put(elevator, new ElevatorQueue());
+    }
+
+    public synchronized ElevatorQueue getQueueFor(Elevator elevator) {
+        return elevatorQueues.get(elevator);
+    }
+
+    public synchronized List<ElevatorQueue> getEligibleQueues(Passenger passenger) {
+        List<ElevatorQueue> eligible = new ArrayList<>();
+        for (Map.Entry<Elevator, ElevatorQueue> entry : elevatorQueues.entrySet()) {
+            if (entry.getKey().canAccept(passenger)) {
+                eligible.add(entry.getValue());
+            }
+        }
+        return eligible;
+    }
+
+    /**
+     * انتخاب مناسب‌ترین صف (با کمترین طول انتظار) برای مسافر
+     */
+    public synchronized ElevatorQueue getPreferredQueue(Passenger passenger) {
+        List<ElevatorQueue> eligible = getEligibleQueues(passenger);
+        if (eligible.isEmpty()) {
+            return null;
+        }
+
+        ElevatorQueue bestQueue = eligible.get(0);
+        for (ElevatorQueue q : eligible) {
+            if (q.size() < bestQueue.size()) {
+                bestQueue = q;
+            }
+        }
+        return bestQueue;
     }
 }
